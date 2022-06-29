@@ -31,3 +31,4 @@ img.show()
 def load_data(path):
     print("vnb")
 #first commit
+#comment
