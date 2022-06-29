@@ -11,7 +11,7 @@ def unpickle(file):
     with open(file, 'rb') as fo:
         dict = pickle.load(fo, encoding='bytes')
     return dict
-
+print("hello")
 
 array1=unpickle(r'C:\amatProject\cifar-10-batches-py\data_batch_1')
 array=array1[b'data']
