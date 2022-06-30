@@ -1,3 +1,5 @@
+from turtle import pd
+
 import numpy as np
 from PIL import Image
 import imageio
@@ -32,6 +34,41 @@ def load_data(path):
     print("vnb")
 #first commit
 #com2g
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #next commit - racheli
 
