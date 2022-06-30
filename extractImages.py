@@ -3,7 +3,16 @@ from PIL import Image
 import os
 import pandas as pd
 # import imageio
-# import cv2
+import cv2
+
+def resize_to_3x32x32(path):# the function get path and resize the image to 3x32x32
+    new_image = cv2.imread(path)
+    #print(new_image.shape)
+    new_image = cv2.resize(x, (32, 32))
+    #print(new_image.shape)
+    #cv2.imshow("resized", new_image)
+    #cv2.waitKey(0)
+    return new_image
 
 def unpickle(file):
     import pickle

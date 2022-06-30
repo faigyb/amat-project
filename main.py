@@ -1,12 +1,11 @@
 from turtle import pd
-
 import numpy as np
 from PIL import Image
 import imageio
 import cv2
 from keras.datasets.cifar import load_batch
 from keras.utils.data_utils import get_file
-# import tensorflow
+import tensorflow
 
 def unpickle(file):
     import pickle
@@ -15,7 +14,7 @@ def unpickle(file):
     return dict
 
 
-array1=unpickle(r'C:\amatProject\cifar-10-batches-py\data_batch_1')
+array1=unpickle(r'C:\Users\Efrat\Downloads\cifar-10-python\cifar-10-python~\cifar-10-batches-py\data_batch_1')
 array=array1[b'data']
 
 array
