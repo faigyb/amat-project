@@ -100,3 +100,4 @@ def load_all_data(path):#the function gets the path where the cifar10 and the ci
 
     load_cifar10_data_into_CSV(path_cifar10)
     load_cifar100_data_into_CSV(path_cifar100)
+    #try merging
