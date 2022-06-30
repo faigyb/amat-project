@@ -74,6 +74,7 @@ def load_data(path):
 
 
 #split funcs:
+#uses pandas, and skLearn.model
 def my_train_test_split(DataFrameX, y=None, **kwargs):
     # split a df to train and test, or train and validation, depend on the kwargs selection
     if True in kwargs:
