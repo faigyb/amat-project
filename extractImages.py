@@ -5,10 +5,10 @@ import pandas as pd
 from os.path import exists
 import cv2
 
-def resize_to_3x32x32(path):# the function get path and resize the image to 3x32x32
+def resize_to_3x32x32(path):# the function gets a path and resizes the image to 3x32x32
     new_image = cv2.imread(path)
     #print(new_image.shape)
-    new_image = cv2.resize(x, (32, 32))
+    new_image = cv2.resize(new_image, (32, 32))
     #print(new_image.shape)
     #cv2.imshow("resized", new_image)
     #cv2.waitKey(0)
