@@ -62,6 +62,8 @@ def map_classes(images,  coarse_labels,  names,final_labels):
 
     selected_classes=[1,2,4,15,18]
     df=df[df['labels'].isin( selected_classes)]
+    for i in range(len(selected_classes)):#replace label's names to prevent duplicates
+        df['labels']=df['labels'].replace(selected_classes[i],10+i)
     print('map_classes')
     return df['image'].tolist(),df['labels'],df['names'],df['final_labels']
     #take only the classes we want from cifar100
