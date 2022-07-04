@@ -56,11 +56,10 @@ def save_images(images,names):
     return images_path
 
 
-def map_classes(images,  coarse_labels,  names,final_labels):
+def map_classes(images,  coarse_labels,  names,final_labels,selected_classes):
     df= {'image': images, 'labels': coarse_labels, 'names': names,'final_labels':final_labels}
     df=pd.DataFrame(data=df)
 
-    selected_classes=[1,2,4,15,18]
     df=df[df['labels'].isin( selected_classes)]
     for i in range(len(selected_classes)):#replace label's names to prevent duplicates
         df['labels']=df['labels'].replace(selected_classes[i],10+i)
@@ -85,7 +84,7 @@ def load_cifar10_data_into_CSV(directory):
     df = {'image': image_path, 'labels': labels, 'names': names}
     add_to_CSV(df)
 
-def load_cifar100_data_into_CSV(directory):
+def load_cifar100_data_into_CSV(directory,selected_classes):
     images=[]
     coarse_labels=[]
     final_labels=[]
@@ -99,16 +98,16 @@ def load_cifar100_data_into_CSV(directory):
             images = [*images, *batch_images]
             names+=batch_names
             final_labels+=batch_final_labels
-    images,  coarse_labels,  names,final_labels=map_classes(images,  coarse_labels,  names,final_labels)
+    images,  coarse_labels,  names,final_labels=map_classes(images,  coarse_labels,  names,final_labels,selected_classes)
     image_path=save_images(images,names)
     df = {'image': image_path, 'labels': coarse_labels, 'names': names, 'final_labels': final_labels}
     add_to_CSV(df)
 
-def load_all_data(path):#the function gets the path where the cifar10 and the cifar100 are stored
+def load_all_data(path,selected_classes):#the function gets the path where the cifar10 and the cifar100 are stored
     #  ולעשות פונקציה למיפוי הקלאסים שאני רוצה.
     path_cifar10 = os.path.join(path, 'cifar-10-batches-py')
     path_cifar100 = os.path.join(path, 'cifar-100-python')
 
     load_cifar10_data_into_CSV(path_cifar10)
-    load_cifar100_data_into_CSV(path_cifar100)
+    load_cifar100_data_into_CSV(path_cifar100,selected_classes)
     #try merging
