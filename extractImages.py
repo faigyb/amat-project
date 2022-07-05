@@ -27,15 +27,17 @@ def unpickle(file):
     return dict    #return a dict that has the data-images labels and names
 
 
-def divide_data(data):#divide batch into labels, data and names
+def divide_data(data,type):#divide batch into labels, data and names
     images=data[b'data']
     names=data[b'filenames']
-    if len(data)==4:
+    if type==10:
         labels=data[b'labels']
         return labels,images,names
-    coarse_labels=data[b'coarse_labels']
-    final_labels = data[b'fine_labels']
-    return images,names,coarse_labels,final_labels
+    if type==100:
+        coarse_labels=data[b'coarse_labels']
+        final_labels = data[b'fine_labels']
+        return images,names,coarse_labels,final_labels
+    print("error")
 
 def add_to_CSV(path:str,dfdict:Dict):
     df = pd.DataFrame(data=dfdict)
@@ -82,7 +84,7 @@ def load_cifar10_data_into_CSV(directory):
         if filename.startswith("data_batch") or filename.startswith("test_batch"):
             path = os.path.join(directory,  filename)  # Adding file name at the end of the address
             data=unpickle(path)
-            batch_labels,batch_images,batch_names=divide_data(data)
+            batch_labels,batch_images,batch_names=divide_data(data,10)
             labels+=batch_labels
             images = [*images, *batch_images]
             names+=batch_names
@@ -101,7 +103,7 @@ def load_cifar100_data_into_CSV(directory,selected_classes):
         if filename.startswith("test") or filename.startswith("train"):
             path = os.path.join(directory, filename)  # Adding file name at the end of the address
             data = unpickle(path)
-            batch_images, batch_names, batch_coarse_labels, batch_final_labels=divide_data(data)
+            batch_images, batch_names, batch_coarse_labels, batch_final_labels=divide_data(data,100)
             coarse_labels+=batch_coarse_labels
             images = [*images, *batch_images]
             names+=batch_names
@@ -128,13 +130,13 @@ def save_image(name,image,path):
 
 
 
-def add_our_pictures(directory,directory_path):
+def add_our_pictures(directory,target_directory_path):
     images_path=[]
     for image_name in os.listdir(directory):
         if not image_name.startswith("desktop"):
             path=os.path.join(directory, image_name)
             image_resized=resize_to_3x32x32(path)
-            image_path=save_image(image_name,image_resized,directory_path)
+            image_path=save_image(image_name,image_resized,target_directory_path)
             images_path.append(image_path)
     add_to_CSV(r'../our_images.csv',images_path)
 
