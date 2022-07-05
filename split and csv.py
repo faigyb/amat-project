@@ -56,4 +56,4 @@ def split_and_save(path,prefix):
     save_csv(dfTrainX,(prefix+'TrainData'))
     save_csv(dfValX, (prefix+'ValidationData'))
     save_csv(dfTestX,(prefix+'TestData'))
-split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./")
+#split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","../data.csv")
