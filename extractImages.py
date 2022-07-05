@@ -5,7 +5,7 @@ import pandas as pd
 from os.path import exists
 import cv2
 import json
-
+from typing import Dict,List
 
 def create_dir(path):
     if not exists(path):#if the folder doesn't exist
@@ -37,8 +37,8 @@ def divide_data(data):#divide batch into labels, data and names
     final_labels = data[b'fine_labels']
     return images,names,coarse_labels,final_labels
 
-def add_to_CSV(path,df):
-    df = pd.DataFrame(data=df)
+def add_to_CSV(path:str,dfdict:Dict):
+    df = pd.DataFrame(data=dfdict)
     df.to_csv(path, mode='a', index=False, header=False)
 
 
@@ -47,27 +47,27 @@ def add_cifar_to_CSV(df):
     if not exists(path):#if the folder doesn't exist
         df_labels = pd.DataFrame(columns=['image', 'labels','final_labels'])
         df_labels.to_csv(path, mode='a', index=False)
-    add_to_CSV(r'../CIFAR-10.csv',df)
+    add_to_CSV(path,df)
 
 
 
-def save_images(images,names):
+def save_images(images,names)->List:
     images_path=[]
-    path = os.path.join('../', 'images')
-    create_dir(path)
+    directory_path = os.path.join('../', 'images')
+    create_dir(directory_path)
     images = np.reshape(images, (len(names), 3, 32, 32))
     for image,image_name in zip(images,names):
         fixed_image = np.transpose(image, (1, 2, 0))
         fixed_image = Image.fromarray(fixed_image)
-        path='../images/'+image_name.decode("utf-8")
+        path=f'{directory_path}/{image_name.decode("utf-8")}'
         fixed_image.save(path)
         images_path.append(path)
     return images_path
 
 
 def map_classes(images,  coarse_labels,  names,final_labels,selected_classes):
-    df= {'image': images, 'labels': coarse_labels, 'names': names,'final_labels':final_labels}
-    df=pd.DataFrame(data=df)
+    dfdict= {'image': images, 'labels': coarse_labels, 'names': names,'final_labels':final_labels}
+    df=pd.DataFrame(data=dfdict)
 
     df=df[df['labels'].isin( selected_classes)]
     for i in selected_classes:#replace label's names to prevent duplicates
@@ -89,8 +89,8 @@ def load_cifar10_data_into_CSV(directory):
             names+=batch_names
 
     image_path=save_images(images,names)
-    df = {'image': image_path, 'labels': labels}
-    add_cifar_to_CSV(df)
+    dfdict = {'image': image_path, 'labels': labels}
+    add_cifar_to_CSV(dfdict)
 
 def load_cifar100_data_into_CSV(directory,selected_classes):
     images=[]
@@ -112,7 +112,6 @@ def load_cifar100_data_into_CSV(directory,selected_classes):
     add_cifar_to_CSV(df)
 
 def load_all_data(path,selected_classes):#the function gets the path where the cifar10 and the cifar100 are stored
-    #  ולעשות פונקציה למיפוי הקלאסים שאני רוצה.
     path_cifar10 = os.path.join(path, 'cifar-10-batches-py')
     path_cifar100 = os.path.join(path, 'cifar-100-python')
 
@@ -144,8 +143,7 @@ def add_one_image(image_path,target_directory_path):
     image_resized = resize_to_3x32x32(image_path)
     image_name=image_path.split('\\')[-1]
     image_path = save_image(image_name, image_resized, target_directory_path)
-    image_path=list(image_path.split("  "))
-    add_to_CSV(r'../our_images.csv',image_path)
+    add_to_CSV(r'../our_images.csv',[image_path])
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
