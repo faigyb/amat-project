@@ -4,15 +4,15 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import os.path
 
-def my_train_test_split(DataFrameX, y=None, valid=False):
+def my_train_test_split(DataFrameX, y=None, valid=False,columnsToDrop='Labels',columnsToseperate='Labels'):
     # split a df to train and test, or train and validation, depend on the kwargs selection
     if valid:
         size = 0.18
     else:
         size = 0.15
     if y is None:
-        y = DataFrameX['Labels']
-        DataFrameX = DataFrameX.drop(['Labels'], axis=1)
+        y = DataFrameX[columnsToDrop]
+        DataFrameX = DataFrameX.drop([columnsToseperate], axis=1)
     X_train, X_test, y_train, y_test = train_test_split(DataFrameX, y, test_size=size, random_state=42)
     return X_train, X_test, y_train, y_test
 
@@ -48,12 +48,12 @@ def open_csv(path):
     return df
 def split_and_save(path,prefix):
     df=open_csv(path)
-    dfTempX,dfTestX,dfTempy,dfTesty=my_train_test_split(df)
-    dfTrainX,dfValX,dfTrainy,dfValy=my_train_test_split(dfTempX,dfTempy,True)
+    dfTempX,dfTestX,dfTempy,dfTesty=my_train_test_split(df,columnsToDrop='labels',columnsToseperate='labels')
+    dfTrainX,dfValX,dfTrainy,dfValy=my_train_test_split(dfTempX,dfTempy,True,columnsToDrop='labels',columnsToseperate='labels')
     dfTrainX['labels']=dfTrainy
     dfValX['labels'] = dfValy
     dfTestX['labels']=dfTesty
     save_csv(dfTrainX,(prefix+'TrainData'))
     save_csv(dfValX, (prefix+'ValidationData'))
     save_csv(dfTestX,(prefix+'TestData'))
-#split_and_save("../Covid-19_data.csv","./")
+split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./")
