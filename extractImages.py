@@ -68,10 +68,9 @@ def save_images(images,names)->List:
 def map_classes(images,  coarse_labels,  names,final_labels,selected_classes):
     dfdict= {'image': images, 'labels': coarse_labels, 'names': names,'final_labels':final_labels}
     df=pd.DataFrame(data=dfdict)
-
     df=df[df['labels'].isin( selected_classes)]
     for i in selected_classes:#replace label's names to prevent duplicates
-        df['labels']=df['labels'].replace(i,10+i)
+        df['labels']=df['labels'].replace(i,i+10)
     return df['image'].tolist(),df['labels'],df['names'],df['final_labels']
     #take only the classes we want from cifar100
 
@@ -93,6 +92,7 @@ def load_cifar10_data_into_CSV(directory):
     add_cifar_to_CSV(dfdict)
 
 def load_cifar100_data_into_CSV(directory,selected_classes):
+    selected_classes.sort(reverse=True)
     images=[]
     coarse_labels=[]
     final_labels=[]
