@@ -141,19 +141,19 @@ def add_our_pictures(directory,target_directory_path):
             image_resized=resize_to_3x32x32(path)
             image_path=save_image(image_name,image_resized,target_directory_path)
             images_path.append(image_path)
-    add_to_CSV(r'../our_images.csv',images_path)
+    add_to_CSV(params.our_images_directory,images_path)
 
 
 def add_one_image(image_path,target_directory_path):
     image_resized = resize_to_3x32x32(image_path)
     image_name=image_path.split('\\')[-1]
     image_path = save_image(image_name, image_resized, target_directory_path)
-    add_to_CSV(r'../our_images.csv',[image_path])
+    add_to_CSV(params.our_images_directory,[image_path])
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
             11:'fish',12:'flowers',14:'fruit and vegetables',24:'people',27:'trees'}
-    with open(r'../labels_names.json', 'w') as json_file:
+    with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
 
