@@ -12,7 +12,7 @@ def my_train_test_split(DataFrameX, y=None, valid=False,columnsToDrop='Labels',c
         size = 0.15
     if y is None:
         y = DataFrameX[columnsToDrop]
-        DataFrameX = DataFrameX.drop([columnsToseperate], axis=1)
+        DataFrameX.drop(columnsToseperate, axis=1,inplace=True)
     X_train, X_test, y_train, y_test = train_test_split(DataFrameX, y, test_size=size, random_state=42)
     return X_train, X_test, y_train, y_test
 
@@ -38,6 +38,7 @@ def merge_dataFrame(A, B):
 def save_csv(df, path, fig=','):
     try:
         df.to_csv(path+'.csv', sep=fig)
+        print('we did it bez"h!')
         return True
     except:
         return False
@@ -56,4 +57,18 @@ def split_and_save(path,prefix):
     save_csv(dfTrainX,(prefix+'TrainData'))
     save_csv(dfValX, (prefix+'ValidationData'))
     save_csv(dfTestX,(prefix+'TestData'))
-#split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","../data.csv")
+#split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./data.csv")
+import matplotlib.pyplot as plt
+#import numpy as np
+
+#y = np.array([35, 25, 25, 15])
+def pie_chart_split(tr,val,tst):
+    myValues=[len(tr),len(val),len(tst)]
+    mylabels = [f"Train\n{myValues[0]/sum(myValues)}%", f"valid\n{myValues[1]/sum(myValues)}%", f"test\n{myValues[2]/sum(myValues)}%"]
+    plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
+    plt.legend(title = "Our split:",loc=1)
+    plt.show()
+train=open_csv('../data.csv/TrainData.csv')
+val=open_csv('../data.csv/ValidationData.csv')
+test=open_csv('../data.csv/TestData.csv')
+pie_chart_split(train,val,test)
