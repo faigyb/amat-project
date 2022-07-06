@@ -7,6 +7,9 @@ import cv2
 import json
 from typing import Dict,List
 
+import params
+
+
 def create_dir(path):
     if not exists(path):#if the folder doesn't exist
         os.mkdir(path)# create a folder for the images
@@ -45,7 +48,7 @@ def add_to_CSV(path:str,dfdict:Dict):
 
 
 def add_cifar_to_CSV(df):
-    path = os.path.join('../', 'CIFAR-10.csv')
+    path = params.cifarCSV
     if not exists(path):#if the folder doesn't exist
         df_labels = pd.DataFrame(columns=['image', 'labels','final_labels'])
         df_labels.to_csv(path, mode='a', index=False)
@@ -55,7 +58,7 @@ def add_cifar_to_CSV(df):
 
 def save_images(images,names)->List:
     images_path=[]
-    directory_path = os.path.join('../', 'images')
+    directory_path = params.images_directory
     create_dir(directory_path)
     images = np.reshape(images, (len(names), 3, 32, 32))
     for image,image_name in zip(images,names):
@@ -114,8 +117,8 @@ def load_cifar100_data_into_CSV(directory,selected_classes):
     add_cifar_to_CSV(df)
 
 def load_all_data(path,selected_classes):#the function gets the path where the cifar10 and the cifar100 are stored
-    path_cifar10 = os.path.join(path, 'cifar-10-batches-py')
-    path_cifar100 = os.path.join(path, 'cifar-100-python')
+    path_cifar10 = params.cifar10_to_execute
+    path_cifar100 =params.cifar100_to_execute
 
     load_cifar10_data_into_CSV(path_cifar10)
     load_cifar100_data_into_CSV(path_cifar100,selected_classes)
