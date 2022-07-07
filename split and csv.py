@@ -4,6 +4,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import os.path
 
+#from extractImages import create_labels_json
+from visualize_DB import pie_chart_split, class_samples_number
+
+
 def my_train_test_split(DataFrameX, y=None, valid=False,columnsToDrop='Labels',columnsToseperate='Labels'):
     # split a df to train and test, or train and validation, depend on the kwargs selection
     if valid:
@@ -62,13 +66,8 @@ import matplotlib.pyplot as plt
 #import numpy as np
 
 #y = np.array([35, 25, 25, 15])
-def pie_chart_split(tr,val,tst):
-    myValues=[len(tr),len(val),len(tst)]
-    mylabels = [f"Train\n{myValues[0]/sum(myValues)}%", f"valid\n{myValues[1]/sum(myValues)}%", f"test\n{myValues[2]/sum(myValues)}%"]
-    plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
-    plt.legend(title = "Our split:",loc=1)
-    plt.show()
-train=open_csv('../data.csv/TrainData.csv')
-val=open_csv('../data.csv/ValidationData.csv')
-test=open_csv('../data.csv/TestData.csv')
-pie_chart_split(train,val,test)
+
+# train=open_csv('../data.csv/TrainData.csv')
+# val=open_csv('../data.csv/ValidationData.csv')
+# test=open_csv('../data.csv/TestData.csv')
+# pie_chart_split(train,val,test)
