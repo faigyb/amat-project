@@ -14,6 +14,14 @@ def create_dir(path):
     if not exists(path):#if the folder doesn't exist
         os.mkdir(path)# create a folder for the images
 
+def filter_list(list_to_filter:List,filter:List)->List:
+    # filtered_list = filter(lambda x: (x >10), list_to_filter)
+    filtered_list = [x for x in list_to_filter if x in filter]
+
+    return filtered_list
+
+
+
 def resize_to_3x32x32(path):# the function gets a path and resizes the image to 3x32x32
     new_image = cv2.imread(path)
     #print(new_image.shape)
@@ -83,14 +91,16 @@ def load_cifar10_data_into_CSV(directory):
     images=[]
     labels=[]
     names=[]
-    for filename in os.listdir(directory):
-        if filename.startswith("data_batch") or filename.startswith("test_batch"):
-            path = os.path.join(directory,  filename)  # Adding file name at the end of the address
-            data=unpickle(path)
-            batch_labels,batch_images,batch_names=divide_data(data,10)
-            labels+=batch_labels
-            images = [*images, *batch_images]
-            names+=batch_names
+    files_list = os.listdir(directory)
+    files_list = [x for x in files_list if x.startswith("data_batch") or x.startswith("test_batch")]
+    for filename in files_list:
+        print(filename)
+        path = os.path.join(directory,  filename)  # Adding file name at the end of the address
+        data=unpickle(path)
+        batch_labels,batch_images,batch_names=divide_data(data,10)
+        labels+=batch_labels
+        images = [*images, *batch_images]
+        names+=batch_names
 
     image_path=save_images(images,names)
     dfdict = {'image': image_path, 'labels': labels}
@@ -102,15 +112,16 @@ def load_cifar100_data_into_CSV(directory,selected_classes):
     coarse_labels=[]
     final_labels=[]
     names=[]
-    for filename in os.listdir(directory):
-        if filename.startswith("test") or filename.startswith("train"):
-            path = os.path.join(directory, filename)  # Adding file name at the end of the address
-            data = unpickle(path)
-            batch_images, batch_names, batch_coarse_labels, batch_final_labels=divide_data(data,100)
-            coarse_labels+=batch_coarse_labels
-            images = [*images, *batch_images]
-            names+=batch_names
-            final_labels+=batch_final_labels
+    files_list= os.listdir(directory)
+    files_list= [x for x in files_list if x.startswith("test") or x.startswith("train")]
+    for filename in files_list:
+        path = os.path.join(directory, filename)  # Adding file name at the end of the address
+        data = unpickle(path)
+        batch_images, batch_names, batch_coarse_labels, batch_final_labels=divide_data(data,100)
+        coarse_labels+=batch_coarse_labels
+        images = [*images, *batch_images]
+        names+=batch_names
+        final_labels+=batch_final_labels
     images,  coarse_labels,  names,final_labels=map_classes(images,  coarse_labels,  names,final_labels,selected_classes)
     image_path=save_images(images,names)
     df = {'image': image_path, 'labels': coarse_labels, 'final_labels': final_labels}
@@ -122,7 +133,7 @@ def load_all_data(path,selected_classes):#the function gets the path where the c
 
     load_cifar10_data_into_CSV(path_cifar10)
     load_cifar100_data_into_CSV(path_cifar100,selected_classes)
-    #try merging
+
 
 def save_image(name,image,path):
     create_dir(path)
@@ -135,12 +146,14 @@ def save_image(name,image,path):
 
 def add_our_pictures(directory,target_directory_path):
     images_path=[]
-    for image_name in os.listdir(directory):
-        if not image_name.startswith("desktop"):
-            path=os.path.join(directory, image_name)
-            image_resized=resize_to_3x32x32(path)
-            image_path=save_image(image_name,image_resized,target_directory_path)
-            images_path.append(image_path)
+    files_list=os.listdir(directory)
+    files_list= [x for x in files_list if x.endswith('jpg') or x.endswith('jpeg') or x.endswith('png')]
+    print(files_list)
+    for image_name in files_list:
+        path=os.path.join(directory, image_name)
+        image_resized=resize_to_3x32x32(path)
+        image_path=save_image(image_name,image_resized,target_directory_path)
+        images_path.append(image_path)
     add_to_CSV(params.our_images_directory,images_path)
 
 
