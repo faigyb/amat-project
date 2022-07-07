@@ -1,3 +1,5 @@
+import shutil
+
 import numpy as np
 from PIL import Image
 import os
@@ -10,7 +12,7 @@ from typing import Dict,List
 import params
 
 
-def create_dir(path):
+def create_dir(path:str):
     if not exists(path):#if the folder doesn't exist
         os.mkdir(path)# create a folder for the images
 
@@ -22,13 +24,11 @@ def filter_list(list_to_filter:List,filter:List)->List:
 
 
 
-def resize_to_3x32x32(path):# the function gets a path and resizes the image to 3x32x32
+def resize_to_3x32x32(path:str):# the function gets a path and resizes the image to 3x32x32
     new_image = cv2.imread(path)
     #print(new_image.shape)
     new_image = cv2.resize(new_image, (32, 32))
     #print(new_image.shape)
-    cv2.imshow("resized", new_image)
-    #cv2.waitKey(0)
     return new_image
 
 def unpickle(file):
@@ -38,7 +38,7 @@ def unpickle(file):
     return dict    #return a dict that has the data-images labels and names
 
 
-def divide_data(data,type):#divide batch into labels, data and names
+def divide_data(data:Dict,type):#divide batch into labels, data and names
     images=data[b'data']
     names=data[b'filenames']
     if type==10:
@@ -94,7 +94,6 @@ def load_cifar10_data_into_CSV(directory):
     files_list = os.listdir(directory)
     files_list = [x for x in files_list if x.startswith("data_batch") or x.startswith("test_batch")]
     for filename in files_list:
-        print(filename)
         path = os.path.join(directory,  filename)  # Adding file name at the end of the address
         data=unpickle(path)
         batch_labels,batch_images,batch_names=divide_data(data,10)
@@ -127,7 +126,24 @@ def load_cifar100_data_into_CSV(directory,selected_classes):
     df = {'image': image_path, 'labels': coarse_labels, 'final_labels': final_labels}
     add_cifar_to_CSV(df)
 
+def prepare_files_for_cifar():
+    try:
+        shutil.rmtree(params.images_directory)
+    except:
+        print('was not')
+    try:
+        os.remove(params.cifarCSV)
+    except:
+        print('was not')
+    create_dir(params.images_directory)
+    path = params.cifarCSV
+    df_labels = pd.DataFrame(columns=['image', 'labels', 'final_labels'])
+    df_labels.to_csv(path, mode='a', index=False)
+
+
 def load_all_data(path,selected_classes):#the function gets the path where the cifar10 and the cifar100 are stored
+    prepare_files_for_cifar()
+
     path_cifar10 = params.cifar10_to_execute
     path_cifar100 =params.cifar100_to_execute
 
@@ -145,6 +161,7 @@ def save_image(name,image,path):
 
 
 def add_our_pictures(directory,target_directory_path):
+    create_dir(target_directory_path)
     images_path=[]
     files_list=os.listdir(directory)
     files_list= [x for x in files_list if x.endswith('jpg') or x.endswith('jpeg') or x.endswith('png')]
@@ -158,10 +175,12 @@ def add_our_pictures(directory,target_directory_path):
 
 
 def add_one_image(image_path,target_directory_path):
-    image_resized = resize_to_3x32x32(image_path)
-    image_name=image_path.split('\\')[-1]
-    image_path = save_image(image_name, image_resized, target_directory_path)
-    add_to_CSV(params.our_images_directory,[image_path])
+    create_dir(target_directory_path)
+    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png')):
+        image_resized = resize_to_3x32x32(image_path)
+        image_name=image_path.split('\\')[-1]
+        image_path = save_image(image_name, image_resized, target_directory_path)
+        add_to_CSV(params.our_images_directory,[image_path])
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
