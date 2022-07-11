@@ -45,4 +45,17 @@ def image_examples():
             plt.title(i)
     plt.show()
 
+def open_csv(path):
+    df = pd.read_csv(path)
+    return df
 
+def pie_chart_split(tr,val,tst):
+    myValues=[len(tr),len(val),len(tst)]
+    mylabels = [f"Train\n{myValues[0]/sum(myValues)}%", f"valid\n{myValues[1]/sum(myValues)}%", f"test\n{myValues[2]/sum(myValues)}%"]
+    plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
+    plt.legend(title = "Our split:",loc=1)
+    plt.show()
+train=open_csv('../data.csv/TrainData.csv')
+val=open_csv('../data.csv/ValidationData.csv')
+test=open_csv('../data.csv/TestData.csv')
+pie_chart_split(train,val,test)
