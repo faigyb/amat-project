@@ -152,7 +152,6 @@ def load_all_data(path,selected_classes):#the function gets the path where the c
 
 
 def save_image(name,image,path):
-    create_dir(path)
     image_path = os.path.join(path,name)
     cv2.imwrite(image_path, image)
     # image.save(path)
@@ -160,18 +159,19 @@ def save_image(name,image,path):
 
 
 
-def add_our_pictures(directory,target_directory_path):
+def add_our_pictures(directory,target_directory_path=params.our_images_directory):
     create_dir(target_directory_path)
+    df=pd.DataFrame(columns=['path','labels'])
+    df.to_csv(params.our_images_csv,index=False)
     images_path=[]
     files_list=os.listdir(directory)
     files_list= [x for x in files_list if x.endswith('jpg') or x.endswith('jpeg') or x.endswith('png')]
-    print(files_list)
     for image_name in files_list:
         path=os.path.join(directory, image_name)
         image_resized=resize_to_3x32x32(path)
         image_path=save_image(image_name,image_resized,target_directory_path)
         images_path.append(image_path)
-    add_to_CSV(params.our_images_directory,images_path)
+    add_to_CSV(params.our_images_csv,images_path)
 
 
 def add_one_image(image_path,target_directory_path):

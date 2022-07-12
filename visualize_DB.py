@@ -55,7 +55,4 @@ def pie_chart_split(tr,val,tst):
     plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
     plt.legend(title = "Our split:",loc=1)
     plt.show()
-train=open_csv('../data.csv/TrainData.csv')
-val=open_csv('../data.csv/ValidationData.csv')
-test=open_csv('../data.csv/TestData.csv')
-pie_chart_split(train,val,test)
+
