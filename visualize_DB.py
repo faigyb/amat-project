@@ -9,15 +9,15 @@ from PIL import Image
 from PIL._imaging import display
 import matplotlib.image as mpimg
 import cv2
-import params
+
 
 def class_samples_number():
-    df = pd.read_csv(params.cifarCSV)
+    df = pd.read_csv()
     with open(r'../labels_names.json', 'r') as f:
         classes_names = json.load(f) #load classes names
-    ax = sns.countplot(x='labels',data=df, palette = "CMRmap_r")
+    ax=sns.countplot(x='labels',data=df, palette = "CMRmap_r")
     ax.set_xticklabels(classes_names.values(), rotation=40, ha="right")
-    ax.set_title('distribution of classes')
+    ax.set_title('disturbution of classes')
     ax.set_xlabel('Classes')
     plt.show()
 
@@ -45,7 +45,7 @@ def image_examples():
             plt.title(i)
     plt.show()
 
-def loading_csv_as_df(path):
+def open_csv(path):
     df = pd.read_csv(path)
     return df
 
@@ -55,7 +55,7 @@ def pie_chart_split(tr,val,tst):
     plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
     plt.legend(title = "Our split:",loc=1)
     plt.show()
-train=loading_csv_as_df('../data.csv/TrainData.csv')
-val=loading_csv_as_df('../data.csv/ValidationData.csv')
-test=loading_csv_as_df('../data.csv/TestData.csv')
+train=open_csv('../data.csv/TrainData.csv')
+val=open_csv('../data.csv/ValidationData.csv')
+test=open_csv('../data.csv/TestData.csv')
 pie_chart_split(train,val,test)
