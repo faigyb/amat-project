@@ -174,6 +174,7 @@ def add_our_pictures(directory,target_directory_path=params.our_images_directory
     add_to_CSV(params.our_images_csv,images_path)
 
 
+
 def add_one_image(image_path,target_directory_path):
     create_dir(target_directory_path)
     if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png')):
@@ -188,7 +189,28 @@ def create_labels_json():
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
-
+def create_dataset(image_csv):
+    img_data_array=[]
+    class_name=[]
+    with open(image_csv,'r') as data:
+        next(data)
+        for row in data:
+            print()
+            image= np.array(Image.open(row.split(',')[1]))
+            # Normalize the data. Before we need to connvert data type to float for computation.
+            image = image.astype('float32')
+            image /= 255
+            img_data_array.append(image)
+            class_name.append(row.split(',')[3])
+    return img_data_array , class_name
+def savez_images():
+    x_train,y_train=create_dataset(params.save_all_directory+"TrainData.csv")
+    print("train")
+    x_test,y_test=create_dataset(params.save_all_directory+"TestData.csv")
+    print("test")
+    x_validation,y_validation=create_dataset(params.save_all_directory+"ValidationData.csv")
+    print("validation")
+    np.savez(params.save_all_directory+"cfar10_modified_1000.npz", train=x_train, ytrain=y_train, test=x_test, ytest=y_test,validation=x_validation, yvalidation=y_validation)
 
 
 
