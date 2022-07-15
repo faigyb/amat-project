@@ -12,7 +12,7 @@ from PySide2.QtCore import QRect, QSize, Qt
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
-from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QGroupBox, QGraphicsView, QGraphicsScene
+from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QGroupBox, QGraphicsView, QGraphicsScene,QLineEdit
 
 import sys
 
@@ -125,6 +125,9 @@ class MainWindow(QDialog):
 
         # file dialog
 
+
+
+
         self.file_dialog_button = QPushButton('Browse Image')
 
         self.file_dialog_button.setStyleSheet("background-color: rgb(0, 214, 157);")
@@ -132,9 +135,11 @@ class MainWindow(QDialog):
         self.file_dialog_button.setFixedSize(230, 60)
 
 
+
+
         self.classify_button = QPushButton('classify object')
 
-        self.classify_button.setStyleSheet("background-color: rgb(0, 214, 157);")
+        self.classify_button.setStyleSheet("background-color: rgb(0,  214, 157);")
 
         self.classify_button.setFixedSize(230, 60)
 
@@ -165,11 +170,24 @@ class MainWindow(QDialog):
 
         self.create_crop_view()  # left
 
+        self.title = QLineEdit("recognize the object app:)")
+
+        self.title.setStyleSheet("background-color: rgb(0,189, 15);")
+
+        self.title.setFixedSize(300, 60)
+
+        self.title.setFont(font)
+
         top_layout = QHBoxLayout()
 
         top_layout.addWidget(self.file_dialog_button)
 
+        top_layout.addWidget(self.title)
+
+
         top_layout.addWidget(self.classify_button)
+
+
 
         main_layout = QGridLayout()
 
