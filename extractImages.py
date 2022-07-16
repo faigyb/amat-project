@@ -152,6 +152,7 @@ def load_all_data(path,selected_classes):#the function gets the path where the c
 
 
 def save_image(name,image,path):
+    create_dir(path)
     image_path = os.path.join(path,name)
     cv2.imwrite(image_path, image)
     # image.save(path)
@@ -159,20 +160,18 @@ def save_image(name,image,path):
 
 
 
-def add_our_pictures(directory,target_directory_path=params.our_images_directory):
+def add_our_pictures(directory,target_directory_path):
     create_dir(target_directory_path)
-    df=pd.DataFrame(columns=['path','labels'])
-    df.to_csv(params.our_images_csv,index=False)
     images_path=[]
     files_list=os.listdir(directory)
     files_list= [x for x in files_list if x.endswith('jpg') or x.endswith('jpeg') or x.endswith('png')]
+    print(files_list)
     for image_name in files_list:
         path=os.path.join(directory, image_name)
         image_resized=resize_to_3x32x32(path)
         image_path=save_image(image_name,image_resized,target_directory_path)
         images_path.append(image_path)
-    add_to_CSV(params.our_images_csv,images_path)
-
+    add_to_CSV(params.our_images_directory,images_path)
 
 
 def add_one_image(image_path,target_directory_path):
@@ -189,28 +188,7 @@ def create_labels_json():
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
-def create_dataset(image_csv):
-    img_data_array=[]
-    class_name=[]
-    with open(image_csv,'r') as data:
-        next(data)
-        for row in data:
-            print()
-            image= np.array(Image.open(row.split(',')[1]))
-            # Normalize the data. Before we need to connvert data type to float for computation.
-            image = image.astype('float32')
-            image /= 255
-            img_data_array.append(image)
-            class_name.append(row.split(',')[3])
-    return img_data_array , class_name
-def savez_images():
-    x_train,y_train=create_dataset(params.save_all_directory+"TrainData.csv")
-    print("train")
-    x_test,y_test=create_dataset(params.save_all_directory+"TestData.csv")
-    print("test")
-    x_validation,y_validation=create_dataset(params.save_all_directory+"ValidationData.csv")
-    print("validation")
-    np.savez(params.save_all_directory+"cfar10_modified_1000.npz", train=x_train, ytrain=y_train, test=x_test, ytest=y_test,validation=x_validation, yvalidation=y_validation)
+
 
 
 
