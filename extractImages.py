@@ -203,7 +203,7 @@ def create_dataset(image_csv):
             img_data_array.append(image)
             class_name.append(row.split(',')[3])
     return img_data_array , class_name
-def savez_images():
+def savez_images():#save images in train, test, validation numpy arrays
     x_train,y_train=create_dataset(params.save_all_directory+"TrainData.csv")
     print("train")
     x_test,y_test=create_dataset(params.save_all_directory+"TestData.csv")
