@@ -1,4 +1,5 @@
 import os
+import time
 
 import cv2
 
@@ -230,6 +231,7 @@ class MainWindow(QDialog):
 
         resized = cv2.resize(img, (577,572), interpolation=cv2.INTER_AREA)
 
+        self.label.setStyleSheet("background-color: rgb(50,200, 200);")
 
         cv2.imwrite('resized.jpg', resized)
 
@@ -244,7 +246,11 @@ class MainWindow(QDialog):
         label=model.predict('image_to_predict.png')
         self.title=label
         params.label=label
+        self.label.setStyleSheet("background-color: rgb(50,0, 200);")
+
         self.label.setText(f'class classified as {label}')
+        print(label)
+        #self.label.setStyleSheet("background-color: rgb(50,200, 200);")
 
 
 
