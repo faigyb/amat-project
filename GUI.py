@@ -16,6 +16,8 @@ from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QG
 
 import sys
 
+import params,new_gui,extractImages,model
+
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -79,7 +81,6 @@ class CropView(GraphicsView):
 
         self.current_rubber_band.show()
 
-        print(self.origin_point)
 
     def mouseMoveEvent(self, mouse_event: QMouseEvent):
         self.current_rubber_band.setGeometry(QRect(self.origin_point, mouse_event.pos()).normalized())
@@ -97,7 +98,7 @@ class CropView(GraphicsView):
 
         self.widg.set_image(crop_pixmap)
 
-        crop_pixmap.save('output.png')
+        crop_pixmap.save('image_to_predict.png')
 
         # you maybe want another button to save the cropped image only after you are satisfied with the result...
 
@@ -119,7 +120,7 @@ class MainWindow(QDialog):
 
         self._is_dl = is_dl
 
-        self.setFixedSize(1250, 700)
+        self.setFixedSize(1250, 750)
 
         self.image = None
 
@@ -178,7 +179,22 @@ class MainWindow(QDialog):
 
         self.title.setFont(font)
 
+        self.label = QLineEdit('upload a picture and choose a square area to recognize or tap to take the whole picture')
+
+        self.label.setStyleSheet("background-color: rgb(50,200, 200);")
+
+        self.label.setFixedSize(1000, 60)
+
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.label.setFont(font)
+
         top_layout = QHBoxLayout()
+
+        bottom_layout = QHBoxLayout()
+
+        bottom_layout.addWidget(self.label)
+
 
         top_layout.addWidget(self.file_dialog_button)
 
@@ -193,6 +209,9 @@ class MainWindow(QDialog):
 
         main_layout.addLayout(top_layout, 0, 0, 1, 6)
 
+        main_layout.addLayout(bottom_layout, 5, 0, 1, 6)
+
+
         main_layout.addWidget(self.left_group_box, 2, 0, 2, 3)
 
         main_layout.addWidget(self.right_group_box, 2, 3, 2, 3)
@@ -204,16 +223,12 @@ class MainWindow(QDialog):
 
         self.image, _ = QFileDialog.getOpenFileName(self, filter=f_types)
 
-        print(self.image)
 
 
         img = cv2.imread(self.image, cv2.IMREAD_UNCHANGED)
 
-        print('Original Dimensions : ', img.shape)
 
         resized = cv2.resize(img, (577,572), interpolation=cv2.INTER_AREA)
-
-        print('Resized Dimensions : ', resized.shape)
 
 
         cv2.imwrite('resized.jpg', resized)
@@ -224,7 +239,15 @@ class MainWindow(QDialog):
             self.crop_view.set_image(QPixmap(self.image))
 
     def classify_image(self):
-        print('classify_image')
+        resized_image=extractImages.resize_to_3x32x32('image_to_predict.png')
+        cv2.imwrite('image_to_predict.png', resized_image)
+        label=model.predict('image_to_predict.png')
+        self.title=label
+        params.label=label
+        self.label.setText(f'class classified as {label}')
+
+
+
 
     def create_crop_view(self):
         self.left_group_box = QWidget(self)
