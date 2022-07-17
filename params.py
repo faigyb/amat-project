@@ -9,4 +9,3 @@ cifar100_to_execute=os.path.join(save_all_directory, 'cifar-100-python')
 our_images_directory=os.path.join(save_all_directory, 'our_images.csv')
 labels_json=os.path.join(save_all_directory, 'labels_names.json')
 model_path = 'keras_cifar10_trained_model_1A.h5'
-label="tha label is soppused to be here"
