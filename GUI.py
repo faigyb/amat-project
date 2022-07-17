@@ -120,7 +120,7 @@ class MainWindow(QDialog):
 
         self._is_dl = is_dl
 
-        self.setFixedSize(1250, 750)
+        self.setFixedSize(1250, 770)
 
         self.image = None
 
