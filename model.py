@@ -26,9 +26,14 @@ def predict(image_path):
 
     image = Image.open(image_path)
     image = np.asarray(image)
+    image = image.astype('float32')
+    image /= 255
     image = [image]
     image = np.asarray(image)
-    image_pred = model.predict(image)
-    ind = np.where(image_pred[0] == 1)[0][0]
+    image_pred = model.predict(image)[0]
+
+    print(image_pred)
+    ind=np.argmax(image_pred)
+    # ind = np.where(image_pred[0] == 1)[0][0]
     return labels[str(ind)]
 
