@@ -9,10 +9,11 @@ from PIL import Image
 from PIL._imaging import display
 import matplotlib.image as mpimg
 import cv2
+import params
 
 
 def class_samples_number():
-    df = pd.read_csv()
+    df = pd.read_csv(params.cifarCSV)
     with open(r'../labels_names.json', 'r') as f:
         classes_names = json.load(f) #load classes names
     ax=sns.countplot(x='labels',data=df, palette = "CMRmap_r")

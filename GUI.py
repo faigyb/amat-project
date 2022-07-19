@@ -17,7 +17,7 @@ from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QG
 
 import sys
 
-import params,new_gui,extractImages,model
+import params,extractImages,model
 
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
