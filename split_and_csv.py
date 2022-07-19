@@ -19,19 +19,6 @@ def my_train_test_split(data_frame_X, y=None, valid=False, columns_to_drop='Labe
     return X_train, X_test, y_train, y_test
 
 
-# //when data includes labels (but it`s unnecessary):
-# def my_train_test_split_labeled(DataFrameX, **kwargs):
-#     # split a df to train and test, or train and validation, depend on the kwargs selection
-#     if True in kwargs:
-#         size = 0.18
-#     else:
-#         size = 0.15
-#
-#     X_train, X_test, y_train, y_test = train_test_split(DataFrameX.drop(['Longitude'], axis=1), DataFrameX['labels'],
-#                                                         test_size=size, random_state=42)
-#     return X_train, X_test, y_train, y_test
-
-
 # merging df func
 def merge_dataFrame(A, B):
     return A.append(B)
@@ -67,7 +54,4 @@ def split_and_save(path, prefix):
 
 
 # split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./data.csv/")
-import matplotlib.pyplot as plt
-# import numpy as np
 
-# y = np.array([35, 25, 25, 15])
