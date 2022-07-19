@@ -32,18 +32,14 @@ def image_examples():
     with open(r'../labels_names.json', 'r') as f:
         classes_names = json.load(f)
     print(classes_names)
-    arr=[0,1,2,3,4,5,6,7,8,9,11,12,14,24,27]
     for j in classes_names:
-        print(j)
         help_list = df[df['labels'].isin([int(j)])].head()['image']
-        print(help_list)
         for i in help_list:
             images.append(cv2.imread(i))
         for i in range(len(images)):
             fig.add_subplot(rows, columns,i+1)
             plt.imshow(images[i])
             plt.axis('off')
-            plt.title(i)
     plt.show()
 
 def open_csv(path):
