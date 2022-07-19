@@ -6,7 +6,7 @@ import os
 import extractImages
 import visualize_DB
 selected_classes = [1, 2, 4, 14, 17]
-extractImages.load_cifar100_data_into_CSV(r'C:\amatProject\cifar-100-python',[0,12])
+# extractImages.load_cifar100_data_into_CSV(r'C:\amatProject\cifar-100-python',[0,12])
 # extractImages.load_cifar10_data_into_CSV(r'C:\amatProject\cifar-10-batches-py')
 
 # extractImages.load_all_data(r'C:\amatProject',selected_classes)
