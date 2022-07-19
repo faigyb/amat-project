@@ -17,7 +17,7 @@ from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QG
 
 import sys
 
-import params,extractImages,model
+import params,model,funcs
 
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -241,7 +241,7 @@ class MainWindow(QDialog):
             self.crop_view.set_image(QPixmap(self.image))
 
     def classify_image(self):
-        resized_image=extractImages.resize_to_3x32x32('image_to_predict.png')
+        resized_image=funcs.resize_to_3x32x32('image_to_predict.png')
         cv2.imwrite('image_to_predict.png', resized_image)
         label=model.predict('image_to_predict.png')
         self.title=label
