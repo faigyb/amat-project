@@ -45,6 +45,12 @@ def create_labels_json():
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
+def define_thresh_json():
+    threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.15,6:0.12,7:0.2,8:0.1,9:0.2,
+            11:0.2,12:0.17,14:0.2,24:0.2,27:0.2}
+    with open(params.thresh_json, 'w') as json_file:
+        json.dump(threshes, json_file)
+
 def create_dataset(image_csv):
     img_data_array=[]
     class_name=[]
