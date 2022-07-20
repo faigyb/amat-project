@@ -10,6 +10,6 @@ our_images_csv=os.path.join(save_all_directory, 'our_images.csv')
 our_images_directory=os.path.join(save_all_directory, 'our_resized_images')
 labels_json=os.path.join(save_all_directory, 'labels_names.json')
 thresh_json=os.path.join(save_all_directory,'threshes.json')
-model_path = 'keras_cifar10_trained_model_1A.h5'
+model_path = 'keras_cifar10_trained_model_dataAugmentation2.h5'
 valid_size = 0.18
 train_size = 0.15
