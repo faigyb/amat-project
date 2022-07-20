@@ -5,7 +5,7 @@ import cv2
 
 from PySide2.QtCore import QPoint
 
-from PySide2.QtWidgets import QWidget, QPushButton, QApplication, QRubberBand, QVBoxLayout
+from PySide2.QtWidgets import QWidget, QPushButton, QApplication, QRubberBand, QVBoxLayout,QTextEdit,QLabel
 
 from PySide2.QtGui import QPixmap, QMouseEvent
 
@@ -17,7 +17,7 @@ from PySide2.QtWidgets import QFileDialog, QDialog, QHBoxLayout, QGridLayout, QG
 
 import sys
 
-import params,model,funcs
+import params,model,funcs,create_data
 
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -101,23 +101,14 @@ class CropView(GraphicsView):
 
         crop_pixmap.save('image_to_predict.png')
 
-        # you maybe want another button to save the cropped image only after you are satisfied with the result...
-
-        # img = cv2.imread(global_image)
-
-        # crop_img = img[self.origin_point.y():self.origin_point.y() + self.current_rect.height()+100, self.origin_point.x():self.origin_point.x()+ self.current_rect.width()]
-
-        # # crop_img = img[ self.origin_point.y()+100:(self.current_rect.height()+self.origin_point.y()+100),1:2500]
-
-        # cv2.imshow("cropped", crop_img)
-
-        # cv2.waitKey(0)
 
 
 class MainWindow(QDialog):
 
     def __init__(self, parent=None, is_dl=False):
         super(MainWindow, self).__init__(parent)
+
+        self.original_image=None
 
         self._is_dl = is_dl
 
@@ -127,9 +118,6 @@ class MainWindow(QDialog):
 
         # file dialog
 
-
-
-
         self.file_dialog_button = QPushButton('Browse Image')
 
         self.file_dialog_button.setStyleSheet("background-color: rgb(0, 214, 157);")
@@ -138,12 +126,18 @@ class MainWindow(QDialog):
 
 
 
-
-        self.classify_button = QPushButton('classify object')
+        self.classify_button = QPushButton('predict')
 
         self.classify_button.setStyleSheet("background-color: rgb(0,  214, 157);")
 
-        self.classify_button.setFixedSize(230, 60)
+        self.classify_button.setFixedSize(150, 60)
+
+
+        self.add_image= QPushButton('add to test')
+
+        self.add_image.setStyleSheet("background-color: rgb(0,  214, 157);")
+
+        self.add_image.setFixedSize(150, 60)
 
         font = QtGui.QFont()
 
@@ -161,6 +155,9 @@ class MainWindow(QDialog):
 
         self.file_dialog_button.clicked.connect(self.load_image)
 
+        self.add_image.setFont(font)
+
+        self.add_image.clicked.connect(self.add_image_to_test)
 
         self.classify_button.setFont(font)
 
@@ -172,9 +169,9 @@ class MainWindow(QDialog):
 
         self.create_crop_view()  # left
 
-        self.title = QLineEdit("recognize the object app:)")
+        self.title = QLabel("recognize the object app:)")
 
-        self.title.setStyleSheet("background-color: rgb(0,189, 15);")
+        # self.title.setStyleSheet("background-color: rgb(255,255, 255);")
 
         self.title.setFixedSize(300, 60)
 
@@ -201,6 +198,8 @@ class MainWindow(QDialog):
 
         top_layout.addWidget(self.title)
 
+        top_layout.addWidget(self.add_image)
+
 
         top_layout.addWidget(self.classify_button)
 
@@ -224,7 +223,7 @@ class MainWindow(QDialog):
 
         self.image, _ = QFileDialog.getOpenFileName(self, filter=f_types)
 
-
+        self.original_image=self.image
 
         img = cv2.imread(self.image, cv2.IMREAD_UNCHANGED)
 
@@ -252,8 +251,9 @@ class MainWindow(QDialog):
         print(label)
         #self.label.setStyleSheet("background-color: rgb(50,200, 200);")
 
-
-
+    def add_image_to_test(self):
+        create_data.add_one_image(self.original_image,params.our_images_directory)
+        self.label.setText('image added successfully')
 
     def create_crop_view(self):
         self.left_group_box = QWidget(self)

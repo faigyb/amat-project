@@ -27,11 +27,17 @@ def add_our_pictures(directory,target_directory_path=params.our_images_directory
 
 def add_one_image(image_path,target_directory_path):
     funcs.create_dir(target_directory_path)
-    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png')):
+    image_path=image_path.lower()
+    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png') ):
         image_resized = funcs.resize_to_3x32x32(image_path)
-        image_name=image_path.split('\\')[-1]
+        if '//' in image_path:
+            image_name=image_path.split('\\')[-1]
+        else:
+            image_name=image_path.split('/')[-1]
+        print(image_name)
         image_path = funcs.save_image(image_name, image_resized, target_directory_path)
-        funcs.add_to_CSV(params.our_images_directory,[image_path])
+        print(image_path)
+        funcs.add_to_CSV(params.our_images_csv,[image_path])
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
