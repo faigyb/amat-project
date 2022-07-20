@@ -27,17 +27,29 @@ def add_our_pictures(directory,target_directory_path=params.our_images_directory
 
 def add_one_image(image_path,target_directory_path):
     funcs.create_dir(target_directory_path)
-    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png')):
+    image_path=image_path.lower()
+    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png') ):
         image_resized = funcs.resize_to_3x32x32(image_path)
-        image_name=image_path.split('\\')[-1]
+        if '//' in image_path:
+            image_name=image_path.split('\\')[-1]
+        else:
+            image_name=image_path.split('/')[-1]
+        print(image_name)
         image_path = funcs.save_image(image_name, image_resized, target_directory_path)
-        funcs.add_to_CSV(params.our_images_directory,[image_path])
+        print(image_path)
+        funcs.add_to_CSV(params.our_images_csv,[image_path])
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
             11:'fish',12:'flowers',14:'fruit and vegetables',24:'people',27:'trees'}
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
+
+def define_thresh_json():
+    threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.15,6:0.12,7:0.2,8:0.1,9:0.2,
+            11:0.2,12:0.17,14:0.2,24:0.2,27:0.2}
+    with open(params.thresh_json, 'w') as json_file:
+        json.dump(threshes, json_file)
 
 def create_dataset(image_csv):
     img_data_array=[]

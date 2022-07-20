@@ -121,7 +121,7 @@ class MainWindow(QDialog):
 
         self._is_dl = is_dl
 
-        self.setFixedSize(1200, 700)
+        self.setFixedSize(1250, 770)
 
         self.image = None
 
@@ -135,12 +135,6 @@ class MainWindow(QDialog):
         self.file_dialog_button.setStyleSheet("background-color: rgb(0, 214, 157);")
 
         self.file_dialog_button.setFixedSize(230, 60)
-
-        self.camera_button = QPushButton('take a picture 📷')
-
-        self.camera_button.setStyleSheet("background-color: rgb(0, 214, 157);")
-
-        self.camera_button.setFixedSize(230 ,60)
 
 
 
@@ -167,12 +161,6 @@ class MainWindow(QDialog):
 
         self.file_dialog_button.clicked.connect(self.load_image)
 
-        self.camera_button.setFont(font)
-
-        self.camera_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-
-        self.camera_button.clicked.connect(self.my_cam)
-
 
         self.classify_button.setFont(font)
 
@@ -196,7 +184,7 @@ class MainWindow(QDialog):
 
         self.label.setStyleSheet("background-color: rgb(50,200, 200);")
 
-        self.label.setFixedSize(900, 60)
+        self.label.setFixedSize(1000, 60)
 
         self.label.setAlignment(QtCore.Qt.AlignCenter)
 
@@ -208,7 +196,6 @@ class MainWindow(QDialog):
 
         bottom_layout.addWidget(self.label)
 
-        bottom_layout.addWidget(self.camera_button)
 
         top_layout.addWidget(self.file_dialog_button)
 
@@ -265,18 +252,8 @@ class MainWindow(QDialog):
         print(label)
         #self.label.setStyleSheet("background-color: rgb(50,200, 200);")
 
-    def my_cam(self):
-        print("my_cam")
-        cam = cv2.VideoCapture(0)
-        result, image=cam.read()
-        if result:
-            cv2.imshow("your_picture", image)
-            self.label.setStyleSheet("background-color: rgb(255, 252, 2);")
-            self.label.setText('press enter in order to classify your picture ')
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        cv2.imwrite('image_to_predict.png', image)
-        self.classify_image()
+
+
 
     def create_crop_view(self):
         self.left_group_box = QWidget(self)

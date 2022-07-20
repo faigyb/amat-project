@@ -2,7 +2,7 @@
 import os
 import pandas as pd
 from os.path import exists
-import cv2
+#import cv2
 from typing import Dict,List
 
 
@@ -21,6 +21,7 @@ def add_to_CSV(path:str,dfdict:Dict):
 
 
 def save_image(name,image,path):
-    image_path = os.path.join(path,name)
+    # image_path = os.path.join(path,name)
+    image_path = f'{path}/{name}'
     cv2.imwrite(image_path, image)
     return image_path
