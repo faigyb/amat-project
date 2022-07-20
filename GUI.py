@@ -157,7 +157,7 @@ class MainWindow(QDialog):
         self.setLayout(main_layout)
 
     def load_image(self):
-        f_types = "Images (*.png; *.jpg)"
+        f_types = "Images (*.png;*jfif; *.jpg)"
         self.image, _ = QFileDialog.getOpenFileName(self, filter=f_types)
         self.original_image=self.image
         img = cv2.imread(self.image, cv2.IMREAD_UNCHANGED)
