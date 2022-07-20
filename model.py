@@ -8,13 +8,17 @@ from PIL import Image
 import os
 import json
 import params
+import create_data
 
 
 def my_load_model():
     model_path=params.model_path
-    model = load_model(params.model_path)
+    model = load_model(model_path)
     return model
-
+def load_json(file):
+    with open(file, 'r') as f:
+        List = json.load(f) #load classes names
+        return  List
 def load_labels():
     with open(params.labels_json, 'r') as f:
         classes_names = json.load(f) #load classes names
@@ -56,3 +60,4 @@ def predict_pro(img):
     else:ind='none'
     print(f"probs: {image_pred_prob}\nind: {ind}\n {type(image_pred_prob[0][0])}")
     return ind
+
