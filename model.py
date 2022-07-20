@@ -20,8 +20,7 @@ def load_labels():
         classes_names = json.load(f) #load classes names
         return  classes_names
 
-def predict(image_path):
-    model=my_load_model()
+def predict(image_path,model):
     labels=load_labels()
 
     image = Image.open(image_path)
@@ -32,8 +31,6 @@ def predict(image_path):
     image = np.asarray(image)
     image_pred = model.predict(image)[0]
 
-    print(image_pred)
     ind=np.argmax(image_pred)
-    # ind = np.where(image_pred[0] == 1)[0][0]
     return labels[str(ind)]
 

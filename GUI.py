@@ -108,13 +108,15 @@ class MainWindow(QDialog):
     def __init__(self, parent=None, is_dl=False):
         super(MainWindow, self).__init__(parent)
 
-        self.original_image=None
-
         self._is_dl = is_dl
 
         self.setFixedSize(1250, 770)
 
         self.image = None
+
+        self.original_image = None
+
+        self.model=model.my_load_model()
 
         # file dialog
 
@@ -242,7 +244,7 @@ class MainWindow(QDialog):
     def classify_image(self):
         resized_image=funcs.resize_to_3x32x32('image_to_predict.png')
         cv2.imwrite('image_to_predict.png', resized_image)
-        label=model.predict('image_to_predict.png')
+        label=model.predict('image_to_predict.png',self.model)
         self.title=label
         params.label=label
         self.label.setStyleSheet("background-color: rgb(50,0, 200);")
