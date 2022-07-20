@@ -2,7 +2,7 @@
 import os
 import pandas as pd
 from os.path import exists
-#import cv2
+import cv2
 from typing import Dict,List
 
 

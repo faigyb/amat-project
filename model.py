@@ -13,13 +13,14 @@ import create_data
 
 def my_load_model():
     model_path = params.model_path
-    model = load_model(r"C:\Users\1\Desktop\imagesProject2\keras_cifar10_trained_model_dataAugmentation2.h5")
+    model = load_model("keras_cifar10_trained_model_dataAugmentation2.h5")
     return model
 def load_json(file):
     with open(file, 'r') as f:
         list = json.load(f)
         print(type(list))#load classes names
         return list
+
 def load_labels():
     with open(params.labels_json, 'r') as f:
         classes_names = json.load(f) #load classes names
@@ -38,6 +39,8 @@ def predict(image_path,model):
     print (image_pred)
     ind=np.argmax(image_pred)
     return labels[str(ind)]
+
+
 def predict_pro(img,model):
     #model = my_load_model()
     labels = load_json(params.labels_json)
@@ -56,5 +59,6 @@ def predict_pro(img,model):
     else:ind='none'
     print(f"probs: {image_pred_prob}\nind: {ind}\n {type(image_pred_prob[0][0])}")
     return ind
-create_data.define_thresh_json()
-print(predict_pro(r"C:\Users\1\Pictures\amat_images\fish_2.png",my_load_model()))
+
+
+# create_data.define_thresh_json()

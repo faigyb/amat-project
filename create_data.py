@@ -28,15 +28,13 @@ def add_our_pictures(directory,target_directory_path=params.our_images_directory
 def add_one_image(image_path,target_directory_path):
     funcs.create_dir(target_directory_path)
     image_path=image_path.lower()
-    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png') ):
+    if(image_path.endswith('jpg') or image_path.endswith('jpeg') or image_path.endswith('png') or image_path.endswith('jfif')  ):
         image_resized = funcs.resize_to_3x32x32(image_path)
         if '//' in image_path:
             image_name=image_path.split('\\')[-1]
         else:
             image_name=image_path.split('/')[-1]
-        print(image_name)
         image_path = funcs.save_image(image_name, image_resized, target_directory_path)
-        print(image_path)
         funcs.add_to_CSV(params.our_images_csv,[image_path])
 
 def create_labels_json():
