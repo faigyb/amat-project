@@ -133,9 +133,9 @@ class MainWindow(QDialog):
         self.title.setFixedSize(380, 60)
         self.title.setFont(header_font)
 
-        self.label = QLabel('upload a picture and choose a square area to recognize or tap to take the whole picture')
+        self.label = QLabel('upload a picture and choose a square area to recognize \n or tap to take the whole picture')
         # self.label.setStyleSheet("background-color: rgb(50,200, 200);")
-        self.label.setFixedSize(900, 60)
+        self.label.setFixedSize(936, 60)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setFont(font)
 
@@ -221,6 +221,7 @@ class Run(object):
         self.app = QApplication(sys.argv)
 
         self.gallery = MainWindow(is_dl=is_dl)
+
 
         # self.gallery.setWindowState(Qt.WindowMaximized)
 
