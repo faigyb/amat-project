@@ -38,8 +38,8 @@ def open_csv(path):
     return df
 
 
-def split_and_save(path, prefix):
-    df = open_csv(path)
+def split_and_save(cifar10_path, prefix):
+    df = open_csv(cifar10_path)
     df_temp_X, df_test_X, df_temp_y, df_test_y = my_train_test_split(df, columns_to_drop='labels',
                                                                      columns_to_seperate='labels')
     df_train_X, df_val_X, df_train_y, df_val_y = my_train_test_split(df_temp_X, df_temp_y, True,

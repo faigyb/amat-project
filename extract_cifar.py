@@ -36,8 +36,11 @@ def map_classes(images,  coarse_labels,  names,final_labels,selected_classes):
     dfdict= {'image': images, 'labels': coarse_labels, 'names': names,'final_labels':final_labels}
     df=pd.DataFrame(data=dfdict)
     df=df[df['labels'].isin( selected_classes)]
+    max=pd.read_csv(params.cifarCSV)['labels'].max()
+    x=1
     for i in selected_classes:#replace label's names to prevent duplicates
-        df['labels']=df['labels'].replace(i,i+10)
+        df['labels']=df['labels'].replace(i,max+x)
+        x += 1
     return df['image'].tolist(),df['labels'],df['names'],df['final_labels']
     #take only the classes we want from cifar100
 

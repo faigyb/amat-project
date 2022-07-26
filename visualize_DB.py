@@ -46,13 +46,13 @@ def open_csv(path):
     df = pd.read_csv(path)
     return df
 
-def pie_chart_split(tr,val,tst):
-    myValues=[len(tr),len(val),len(tst)]
+def pie_chart_split(train_path,validation_path,test_path):
+    train=open_csv(train_path)
+    validation=open_csv(validation_path)
+    test=open_csv(test_path)
+
+    myValues=[len(train),len(validation),len(test)]
     mylabels = [f"Train\n{myValues[0]/sum(myValues)}%", f"valid\n{myValues[1]/sum(myValues)}%", f"test\n{myValues[2]/sum(myValues)}%"]
     plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
     plt.legend(title = "Our split:",loc=1)
     plt.show()
-# train=open_csv('../data.csv/TrainData.csv')
-# val=open_csv('../data.csv/ValidationData.csv')
-# test=open_csv('../data.csv/TestData.csv')
-# pie_chart_split(train,val,test)

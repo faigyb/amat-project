@@ -39,7 +39,7 @@ def add_one_image(image_path,target_directory_path):
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
-            11:'fish',12:'flowers',14:'fruit and vegetables',24:'people',27:'trees'}
+            10:'fish',11:'flowers',12:'fruit and vegetables',13:'people',14:'trees'}
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
@@ -57,7 +57,7 @@ def create_dataset(image_csv):
         for row in data:
             print()
             image= np.array(Image.open(row.split(',')[1]))
-            # Normalize the data. Before we need to connvert data type to float for computation.
+            # Normalize the data. Before we need to convert data type to float for computation.
             image = image.astype('float32')
             image /= 255
             img_data_array.append(image)
@@ -71,6 +71,5 @@ def savez_images():
     print("test")
     x_validation,y_validation=create_dataset(params.save_all_directory+"ValidationData.csv")
     print("validation")
-    np.savez(params.save_all_directory+"cfar10_modified_1000.npz", train=x_train, ytrain=y_train, test=x_test, ytest=y_test,validation=x_validation, yvalidation=y_validation)
+    np.savez(params.save_all_directory+"cfar10_modified_100.npz", train=x_train, ytrain=y_train, test=x_test, ytest=y_test,validation=x_validation, yvalidation=y_validation)
 
-define_thresh_json()
