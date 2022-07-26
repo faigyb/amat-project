@@ -51,14 +51,11 @@ def predict_pro(img,model):
     image /= 255
     image = [image]
     image = np.asarray(image)
-    image_pred_prob = model.predict(image)
+    image_pred_prob = model.predict(image).flatten()
     print(f"max: {np.mean(image_pred_prob)},\nargmax: {np.argmax(image_pred_prob)}\nmaxPro: {np.max(image_pred_prob)}\nthr: {threshes}")
 
     if np.max(image_pred_prob) >= threshes[str(np.argmax(image_pred_prob))]:
          ind=labels[str(np.argmax(image_pred_prob))]
     else:ind='none'
-    print(f"probs: {image_pred_prob}\nind: {ind}\n {type(image_pred_prob[0][0])}")
+    print(f"probs: {image_pred_prob}\nind: {ind}")
     return ind
-
-
-# create_data.define_thresh_json()

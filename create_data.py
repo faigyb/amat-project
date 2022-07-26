@@ -44,8 +44,8 @@ def create_labels_json():
         json.dump(labels, json_file)
 
 def define_thresh_json():
-    threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.15,6:0.12,7:0.2,8:0.1,9:0.2,
-            11:0.2,12:0.17,14:0.2,24:0.2,27:0.2}
+    threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.25,6:0.12,7:0.2,8:0.3,9:0.2,
+            11:0.2,12:0.2,14:0.2,24:0.15,27:0.2}
     with open(params.thresh_json, 'w') as json_file:
         json.dump(threshes, json_file)
 
@@ -73,3 +73,4 @@ def savez_images():
     print("validation")
     np.savez(params.save_all_directory+"cfar10_modified_1000.npz", train=x_train, ytrain=y_train, test=x_test, ytest=y_test,validation=x_validation, yvalidation=y_validation)
 
+define_thresh_json()

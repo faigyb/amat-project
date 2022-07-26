@@ -173,7 +173,7 @@ class MainWindow(QDialog):
     def classify_image(self):
         resized_image=funcs.resize_to_3x32x32('image_to_predict.png')
         cv2.imwrite('image_to_predict.png', resized_image)
-        label=model.predict('image_to_predict.png',self.model)
+        label=model.predict_pro('image_to_predict.png',self.model)
         self.title=label
         params.label=label
         self.label.setStyleSheet("background-color: rgb(50,0, 200);")
