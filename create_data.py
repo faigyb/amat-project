@@ -43,8 +43,8 @@ def create_labels_json():
         json.dump(labels, json_file)
 
 def define_thresh_json():
-    threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.25,6:0.12,7:0.2,8:0.3,9:0.2,
-            10:0.2,11:0.2,12:0.2,13:0.15,14:0.2}
+    threshes={0:0.42,1:0.45,2:0.39,3:0.4,4:0.19,5:0.2,6:0.18,7:0.2,8:0.2,9:0.45,
+            10:0.2,11:0.34,12:0.3,13:0.15,14:0.15}
     with open(params.thresh_json, 'w') as json_file:
         json.dump(threshes, json_file)
 
