@@ -53,5 +53,5 @@ def split_and_save(cifar10_path, prefix):
     save_csv(df_test_X, (prefix + 'TestData'))
 
 
-# split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./data.csv/")
+#split_and_save(params.cifarCSV,"./data.csv/")
 
