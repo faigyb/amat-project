@@ -38,7 +38,7 @@ def add_one_image(image_path,target_directory_path):
 
 def create_labels_json():
     labels={0:'airplane',1:'automobile',2:'bird',3:'cat',4:'deer',5:'dog',6:'frog',7:'horse',8:'ship',9:'truck',
-            10:'fish',11:'flowers',12:'fruit and vegetables',13:'people',14:'trees'}
+            10:'trees',11:'people',12:'fruit and vegetables',13:'flowers',14:'fish'}
     with open(params.labels_json, 'w') as json_file:
         json.dump(labels, json_file)
 
