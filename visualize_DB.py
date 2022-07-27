@@ -1,13 +1,7 @@
 import pandas as pd
 import seaborn as sns
-import matplotlib
 import json
 import matplotlib.pyplot as plt
-import numpy as np
-import h5py
-from PIL import Image
-from PIL._imaging import display
-import matplotlib.image as mpimg
 import cv2
 import params
 

@@ -5,8 +5,6 @@ from PIL import Image
 import os
 import pandas as pd
 from os.path import exists
-import cv2
-import json
 from typing import Dict,List
 
 import params,funcs

@@ -1,11 +1,7 @@
-# load and evaluate a saved model
-from numpy import loadtxt
+
 from tensorflow.keras.models import load_model
-import os
 import numpy as np
-import pandas as pd
 from PIL import Image
-import os
 import json
 import params
 import create_data
@@ -13,8 +9,9 @@ import create_data
 
 def my_load_model():
     model_path = params.model_path
-    model = load_model("keras_cifar10_trained_model_dataAugmentation2.h5")
+    model = load_model(model_path)
     return model
+
 def load_json(file):
     with open(file, 'r') as f:
         list = json.load(f)
@@ -28,30 +25,26 @@ def load_labels():
 
 def predict(image_path,model):
     labels=load_labels()
-
     image = Image.open(image_path)
     image = np.asarray(image)
     image = image.astype('float32')
     image /= 255
     image = [image]
     image = np.asarray(image)
-    image_pred = model.predict(image)[0]
-    print (image_pred)
+    image_pred = model.predict(image).flatten()
+    return image_pred
+
+def predict_without_pro(image_path,model):
+    labels = load_json(params.labels_json)
+    image_pred = predict(image_path,model)
     ind=np.argmax(image_pred)
     return labels[str(ind)]
 
+def predict_pro(image_path,model):
 
-def predict_pro(img,model):
-    #model = my_load_model()
     labels = load_json(params.labels_json)
     threshes = load_json(params.thresh_json)
-    image = Image.open(img)
-    image = np.asarray(image)
-    image = image.astype('float32')
-    image /= 255
-    image = [image]
-    image = np.asarray(image)
-    image_pred_prob = model.predict(image).flatten()
+    image_pred_prob = predict(image_path,model)
     print(f"max: {np.mean(image_pred_prob)},\nargmax: {np.argmax(image_pred_prob)}\nmaxPro: {np.max(image_pred_prob)}\nthr: {threshes}")
 
     if np.max(image_pred_prob) >= threshes[str(np.argmax(image_pred_prob))]:

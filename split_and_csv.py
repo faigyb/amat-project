@@ -1,5 +1,4 @@
-# necessary imports:
-# from sklearn.model import train_test_split
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import os.path
@@ -39,6 +38,11 @@ def open_csv(path):
 
 
 def split_and_save(cifar10_path, prefix):
+    for f in [prefix + 'TrainData',prefix + 'ValidationData',prefix + 'TestData']:
+        try:
+            os.remove(f)
+        except:
+            print('was not')
     df = open_csv(cifar10_path)
     df_temp_X, df_test_X, df_temp_y, df_test_y = my_train_test_split(df, columns_to_drop='labels',
                                                                      columns_to_seperate='labels')
@@ -53,5 +57,4 @@ def split_and_save(cifar10_path, prefix):
     save_csv(df_test_X, (prefix + 'TestData'))
 
 
-# split_and_save("C:/Users/1/Downloads/CIFAR-10.csv","./data.csv/")
 

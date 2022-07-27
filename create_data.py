@@ -5,7 +5,6 @@ import os
 import pandas as pd
 import json
 from typing import Dict,List
-
 import params,funcs
 
 
@@ -45,7 +44,7 @@ def create_labels_json():
 
 def define_thresh_json():
     threshes={0:0.2,1:0.1,2:0.15,3:0.2,4:0.2,5:0.25,6:0.12,7:0.2,8:0.3,9:0.2,
-            11:0.2,12:0.2,14:0.2,24:0.15,27:0.2}
+            10:0.2,11:0.2,12:0.2,13:0.15,14:0.2}
     with open(params.thresh_json, 'w') as json_file:
         json.dump(threshes, json_file)
 
