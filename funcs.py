@@ -19,7 +19,7 @@ def add_to_CSV(path:str,dfdict:Dict):
     df.to_csv(path, mode='a', index=False, header=False)
 
 
-def save_image(name,image,path):
+def save_image(name:str,image,path:str)->str:
     # image_path = os.path.join(path,name)
     image_path = f'{path}/{name}'
     cv2.imwrite(image_path, image)

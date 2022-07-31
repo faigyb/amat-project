@@ -36,7 +36,7 @@ def image_examples():
             plt.axis('off')
     plt.show()
 
-def open_csv(path):
+def open_csv(path:str):
     df = pd.read_csv(path)
     return df
 

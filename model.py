@@ -5,25 +5,25 @@ from PIL import Image
 import json
 import params
 import create_data
-
+from typing import List
 
 def my_load_model():
     model_path = params.model_path
     model = load_model(model_path)
     return model
 
-def load_json(file):
+def load_json(file:str)->List:
     with open(file, 'r') as f:
         list = json.load(f)
         print(type(list))#load classes names
         return list
 
-def load_labels():
+def load_labels()->List:
     with open(params.labels_json, 'r') as f:
         classes_names = json.load(f) #load classes names
         return  classes_names
 
-def predict(image_path,model):
+def predict(image_path:str,model)->List:
     labels=load_labels()
     image = Image.open(image_path)
     image = np.asarray(image)
@@ -34,13 +34,13 @@ def predict(image_path,model):
     image_pred = model.predict(image).flatten()
     return image_pred
 
-def predict_without_pro(image_path,model):
+def predict_without_pro(image_path:str,model)->str:
     labels = load_json(params.labels_json)
     image_pred = predict(image_path,model)
     ind=np.argmax(image_pred)
     return labels[str(ind)]
 
-def predict_pro(image_path,model):
+def predict_pro(image_path:str,model)->str:
 
     labels = load_json(params.labels_json)
     threshes = load_json(params.thresh_json)
