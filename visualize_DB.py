@@ -46,7 +46,12 @@ def pie_chart_split(train_path,validation_path,test_path):
     test=open_csv(test_path)
 
     myValues=[len(train),len(validation),len(test)]
-    mylabels = [f"Train\n{myValues[0]/sum(myValues)}%", f"valid\n{myValues[1]/sum(myValues)}%", f"test\n{myValues[2]/sum(myValues)}%"]
+
+    test="{:.2f}".format((myValues[2]/sum(myValues))*100)
+    valid="{:.2f}".format((myValues[1]/sum(myValues))*100)
+    train="{:.2f}".format((myValues[0]/sum(myValues))*100)
+
+    mylabels = [f"Train\n{train}%", f"valid\n{valid}%", f"test\n{test}%"]
     plt.pie(myValues, labels = mylabels,colors=['y','k','c'])
     plt.legend(title = "Our split:",loc=1)
     plt.show()
